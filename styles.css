@@ -1,0 +1,28 @@
+body {
+	background-color: #333;
+	font-family: sans-serif;
+	font-size: small;
+	color: #FFF;
+}
+
+.goog-slider-horizontal {
+  border: solid 1px #CCCCCC;
+  background-color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+.goog-slider-thumb {
+  position: absolute;
+  background-color: #3399CC;
+  overflow: hidden;
+  width: 10px;
+  height: 100%;
+  top: 0;
+}
+
+#map {
+  border: 1px solid black;
+  margin-bottom: 10px;
+  height: 800px;
+}

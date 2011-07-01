@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <title>MVC is Fun</title>
+
+		<link rel="stylesheet" href="styles.css" type="text/css" media="screen" title="no title" charset="utf-8">
+		<link rel="stylesheet" href="common.css" type="text/css" media="screen" title="no title" charset="utf-8">
+		<link rel="stylesheet" href="dialog.css" type="text/css" media="screen" title="no title" charset="utf-8">
+
+    <script type="text/javascript" src="http://www.google.com/jsapi?autoload={'modules':[{name:'maps',version:3,other_params:'sensor=false'}]}"></script>
+    <script type="text/javascript" src="distancewidget.js"></script>
+		<script src="closurec.js" type="text/javascript" charset="utf-8"></script>
+		<script src="slider.js" type="text/javascript" charset="utf-8"></script>
+  </head>
+  <body onLoad="initializeMap()">
+     <div id="options" style="display: block;"> 
+	      <p>Show schools within:</p> 
+	      <div id="slider" class="goog-slider" style="width: 480px; height: 15px; float: left"> 
+	        <div class="goog-slider-thumb"></div> 
+	      </div> 
+	      <div id="slider-value" style="float: left; margin-left: 5px;"></div> 
+	    </div> 
+	    <br clear="all"/><div id="map"></div>
+		<div id="info"></div>
+
+  </body>
+</html>
