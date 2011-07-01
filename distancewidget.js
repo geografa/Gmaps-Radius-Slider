@@ -1,3 +1,5 @@
+
+var marker;
 /**
  * A distance widget that will display a circle that can be resized and will
  * provide the radius in km.
@@ -136,6 +138,7 @@ RadiusWidget.prototype.setDistance = function() {
  */
 RadiusWidget.prototype.distance_changed = function() {
   this.set('radius', this.get('distance') * 1000);
+
 };
 
 /**
@@ -167,13 +170,25 @@ function displayInfo(widget) {
 }
 
 
-var tableid = 517214; //GISP data
+// TODO: limit table to radius
+// function updateSchools(widget) {
+// 	updateQuery = "SELECT District FROM " + tableid + " WHERE ST_INTERSECTS(District, CIRCLE(LATLNG(" + widget.get('position') + "," + widget.get('distance');
+// 	layer.setQuery(updateQuery);
+// }
+
+// TODO: make the slider update when the resizer is dragged out.
+// function displaySliderInfo(widget) {
+//   var sliderInfo = document.getElementById('slider-value');
+//   sliderInfo.innerHTML = widget.get('distance');
+// }
+
+var tableid = 811773; //GISP data
 
 
 function init() {
   var mapDiv = document.getElementById('map');
   var map = new google.maps.Map(mapDiv, {
-    center: new google.maps.LatLng(45.522846311090994, -122.66002535814152),
+    center: new google.maps.LatLng(34.0417309747755, -118.24832797044621),
     zoom: 13,
     mapTypeId: google.maps.MapTypeId.ROADMAP
   });				

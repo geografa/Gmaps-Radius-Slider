@@ -42,7 +42,7 @@ function initializeSlider() {
       sliderTimer = window.setTimeout(updateMap, 200);
       document.getElementById("slider-value").innerHTML = slider.getValue() + " mi";
     });
-    slider.setValue(25);
+    slider.setValue(3.218688);
 }
 
 // Convert a slider value (0 - 100%) to an distance between 0 and 3000.

@@ -13,7 +13,7 @@
 		<script src="closurec.js" type="text/javascript" charset="utf-8"></script>
 		<script src="slider.js" type="text/javascript" charset="utf-8"></script>
   </head>
-  <body onLoad="initializeMap()">
+  <body onLoad="init()">
      <div id="options" style="display: block;"> 
 	      <p>Show schools within:</p> 
 	      <div id="slider" class="goog-slider" style="width: 480px; height: 15px; float: left"> 
@@ -23,6 +23,8 @@
 	    </div> 
 	    <br clear="all"/><div id="map"></div>
 		<div id="info"></div>
+		<input type="button" value="Load Only GISP Locations within Radius" onclick="updateSchools()">
+    
 
   </body>
 </html>
