@@ -1,0 +1,146 @@
+
+<html> 
+<head> 
+<title>Adjust the Radius Around Schools</title> 
+ 
+<link rel="stylesheet" href="common.css">
+<link rel="stylesheet" href="dialog.css">
+<script type="text/javascript" src="closurec.js"></script>
+<link rel="stylesheet" href="styles.css" type="text/css" media="screen" title="no title" charset="utf-8">
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+<script type="text/javascript" src="http://www.google.com/jsapi"></script> 
+<script type="text/javascript"> 
+
+goog.require('goog.ui.Dialog');
+goog.require('goog.ui.Slider');
+goog.require('goog.ui.Component');
+var map, sliderTimer, slider, circle, radius, layer, lat, lon, marker, latLng;
+var markersArray = [];
+var circlesArray = [];
+
+
+var school_table = 1085076; // trails 132848;  gisps: 811773; schools: 1080038
+google.load('visualization', '1', {});
+
+//send a call to GViz to retrieve lat/long coordinates of the schools
+function getSchoolData() {
+  //set the query using the input from the user
+  var queryText = encodeURIComponent("SELECT latitude,longitude,Name FROM " + school_table);
+  var query = new google.visualization.Query('http://www.google.com/fusiontables/gvizdata?tq='  + queryText);
+  
+  //set the callback function
+  query.send(createCircles);
+}
+ 
+//create 3 circles at each lat/long, 1/2 mile increments
+function createCircles(response) {
+  initializeSlider(); 
+  //create a new map
+  map = new google.maps.Map(document.getElementById('map_canvas'), {
+    center: new google.maps.LatLng(45.53296,-122.66708), //the center lat and long
+    zoom: 14, //zoom
+    mapTypeId: google.maps.MapTypeId.ROADMAP //the map style
+  });
+	
+  //for more information on the response object, see the documentation
+  //http://code.google.com/apis/visualization/documentation/reference.html#QueryResponse
+  numRows = response.getDataTable().getNumberOfRows();
+  //create the circles for each school
+	for(i = 0; i < numRows; i++) {
+		lat = response.getDataTable().getValue(i,0); //we know this is 0 because Latitude is the first column in our SELECT query
+    lon = response.getDataTable().getValue(i,1);
+    school = response.getDataTable().getValue(i,2); //the name of the school
+    
+ 		latLng = new google.maps.LatLng(lat,lon);
+	
+		circle = new google.maps.Circle({ 
+	    center: latLng,
+	    radius: 0,
+	    map:map
+	  });
+		circlesArray.push(circle);
+	
+					
+		marker = new google.maps.Marker({
+	    // icon: 'school.png',
+			visible: false,
+			position: latLng,
+	    draggable: false,
+	    map: map
+		});
+		
+		circle.bindTo('center', marker, 'position');
+	  markersArray.push(latLng);
+  }
+  showLayers();
+}
+
+
+
+function showLayers() {
+  school_layer = new google.maps.FusionTablesLayer(school_table);  
+  school_layer.setMap(map);
+}
+ 
+function initializeSlider() {
+    var sliderElement = document.getElementById('slider');
+    slider = new goog.ui.Slider;
+    slider.decorate(sliderElement);
+    slider.addEventListener(goog.ui.Component.EventType.CHANGE, function() {
+      // Avoid updating the map too often by ignoring slider value changes
+      // that occur within 200mS of eachother.
+      if (sliderTimer) window.clearTimeout(sliderTimer);
+      sliderTimer = window.setTimeout(updateMap, 200);
+      document.getElementById("slider-value").innerHTML = slider.getValue()*10 + " m";
+    });
+    slider.setValue(0);
+}
+
+// Convert a slider value (0 - 100%) to an distance between 0 and 3000.
+function sliderValueToKm(value) {
+  return Math.round(value);
+}
+
+// Update the query used to filter Fusion Tables data using the
+// current value of the slider.
+function updateMap() {
+	var distance = sliderValueToKm(slider.getValue());  
+		if (markersArray) {
+			for (i in markersArray) {
+				circle = new google.maps.Circle({
+			    center: markersArray[i],
+			    radius: distance*10,
+			    map:map
+			  });
+				circlesArray.push(circle);			
+				// alert('Lat long is: ' + markersArray[i]);
+	    }
+	   }
+		
+}
+// Removes the overlays from the map, but keeps them in the array
+function clearOverlays() {
+	if (circlesArray) {
+    for (i in circlesArray) {
+			circlesArray[i].setMap(null);
+    }
+  }
+}
+</script> 
+</head> 
+<body onload="getSchoolData();"> 
+	<h1>Portland Schools</h1>
+	<h3>Adjust the slider to change the radius around each school.</h3>
+	<div id="map_canvas"></div>
+	<div id="options" style="display: block;">
+	  <p>Show schools with radius of:</p>
+	  <div id="slider" class="goog-slider" style="width: 480px; height: 15px; float: left">
+	    <div class="goog-slider-thumb"></div>
+	  </div>
+	  <div id="slider-value" style="float: left; margin-left: 5px;"></div>
+	</div>
+	<div>
+		<input type="button" value="Clear Circles" onclick="clearOverlays()">
+	</div>
+</body> 
+</html>

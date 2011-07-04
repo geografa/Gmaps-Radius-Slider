@@ -23,10 +23,22 @@ body {
 
 #map {
   border: 1px solid black;
+  margin: 10px;
+  height: 400px;
+	width: 960px;
+}
+
+#map_canvas {
+  border: 1px solid black;
   margin-bottom: 10px;
-  height: 800px;
+  height: 400px;
 }
 
 .googft-info-window {
-    color: #333;
+  color: #333;
+}
+
+#sidebar {
+	float:left; 
+	margin:10px;
 }

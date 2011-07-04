@@ -1,6 +1,6 @@
-goog.require('goog.ui.Dialog');
-goog.require('goog.ui.Slider');
-goog.require('goog.ui.Component');
+// goog.require('goog.ui.Dialog');
+// goog.require('goog.ui.Slider');
+// goog.require('goog.ui.Component');
 var sliderTimer, slider;
 
 // When a user clicks on a feature on the map, intercept the

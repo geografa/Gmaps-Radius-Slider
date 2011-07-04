@@ -1,3 +1,3 @@
 Gmaps-Radius-Slider
 -------------------	
-For selecting features within a given radius (in miles).
+Some experiments with Google Maps and the circle constructor class (google.maps.Circle).
